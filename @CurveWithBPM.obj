@@ -1,0 +1,55 @@
+@トラックバー往復
+--dialog:配分,local m=0.5;ID,local id=1;
+--check0:反転,0;
+--track0:BPM,1.0,1600.0,120.0
+--track1:ずらし,0,3000,0,1
+--track2:行きID,-2,1024,0,1
+--track3:帰りID,-2,1024,0,1
+
+local modname="curve_editor"
+if not package.loaded[modname] then
+    package.preload[modname]=package.loadlib(modname .. ".auf","luaopen_" .. modname)
+    require(modname)
+    package.preload[modname]=nil
+end
+
+local bpm = obj.track0
+local bps = bpm / 60
+local delay = obj.track1
+local curve_id = {s=obj.track2, e=obj.track3}
+local c, t = math.modf((obj.frame + delay) * bps / obj.framerate)
+local p
+if t < m then
+    if curve_id.s == -1 then
+        p = 0
+    elseif curve_id.s == -2 then
+        p = 1
+    elseif curve_id.s == 0 then
+        p = t / m
+    else
+        p = curve_editor.getcurve(1, curve_id.s, t / m, 0.0, 1.0)
+    end
+else
+    if curve_id.e == -1 then
+        p = 1
+    elseif curve_id.e == -2 then
+        p = 0
+    elseif curve_id.e == 0 then
+        p = (1 - t) / (1 - m)
+    else
+        if obj.check0 then
+            p = curve_editor.getcurve(1, curve_id.e, 1 - (t - m) / (1.0 - m), 0.0, 1.0)
+        else
+            p = curve_editor.getcurve(1, curve_id.e, (t - m) / (1.0 - m), 1.0, 0.0)
+        end
+    end
+end
+
+if CurveWithBPM == nil then
+    CurveWithBPM = {}
+end
+if CurveWithBPM.track == nil then
+    CurveWithBPM.track = {}
+end
+
+CurveWithBPM.track[id] = p

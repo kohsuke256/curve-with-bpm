@@ -1,0 +1,16 @@
+@âùïú
+--param:0
+
+local i, t =math.modf(obj.getpoint("index"))
+local s = obj.getpoint(0);
+local e = obj.getpoint(i + 1);
+local id = obj.getpoint("param")
+
+local p
+if CurveWithBPM == nil or CurveWithBPM.track == nil or CurveWithBPM.track[id] == nil then
+    p = t
+else
+    p = CurveWithBPM.track[id]
+end
+
+return e * p + s * (1 - p)
