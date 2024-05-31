@@ -1,0 +1,5 @@
+*.anm working-tree-encoding=cp932 eol=crlf linguist-language=lua
+*.cam working-tree-encoding=cp932 eol=crlf linguist-language=lua
+*.obj working-tree-encoding=cp932 eol=crlf linguist-language=lua
+*.scn working-tree-encoding=cp932 eol=crlf linguist-language=lua
+*.tra working-tree-encoding=cp932 eol=crlf linguist-language=lua
