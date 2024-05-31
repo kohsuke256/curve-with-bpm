@@ -1,4 +1,21 @@
-@往復
+@往復区間
+--param:0
+
+local i, t =math.modf(obj.getpoint("index"))
+local s = obj.getpoint(i);
+local e = obj.getpoint(i + 1);
+local id = obj.getpoint("param")
+
+local p
+if CurveWithBPM == nil or CurveWithBPM.track == nil or CurveWithBPM.track[id] == nil then
+    p = t
+else
+    p = CurveWithBPM.track[id]
+end
+
+return s * (1 - p) + e * p
+
+@往復差分
 --param:0
 
 local i, t =math.modf(obj.getpoint("index"))
@@ -13,4 +30,40 @@ else
     p = CurveWithBPM.track[id]
 end
 
-return e * p + s * (1 - p)
+return s + e * p
+
+@往復区間（中間点無視）
+--twopoint
+--param:0
+
+local i, t =math.modf(obj.getpoint("index"))
+local s = obj.getpoint(0);
+local e = obj.getpoint(1);
+local id = obj.getpoint("param")
+
+local p
+if CurveWithBPM == nil or CurveWithBPM.track == nil or CurveWithBPM.track[id] == nil then
+    p = t
+else
+    p = CurveWithBPM.track[id]
+end
+
+return s * (1 - p) + e * p
+
+@往復差分（中間点無視）
+--twopoint
+--param:0
+
+local i, t =math.modf(obj.getpoint("index"))
+local s = obj.getpoint(0);
+local e = obj.getpoint(1);
+local id = obj.getpoint("param")
+
+local p
+if CurveWithBPM == nil or CurveWithBPM.track == nil or CurveWithBPM.track[id] == nil then
+    p = t
+else
+    p = CurveWithBPM.track[id]
+end
+
+return s + e * p

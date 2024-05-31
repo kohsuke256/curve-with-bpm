@@ -6,12 +6,7 @@
 --track2:çsÇ´ID,-2,1024,0,1
 --track3:ãAÇËID,-2,1024,0,1
 
-local modname="curve_editor"
-if not package.loaded[modname] then
-    package.preload[modname]=package.loadlib(modname .. ".auf","luaopen_" .. modname)
-    require(modname)
-    package.preload[modname]=nil
-end
+local lib = require("CurveWithBPM")
 
 local bpm = obj.track0
 local bps = bpm / 60
@@ -19,31 +14,14 @@ local delay = obj.track1
 local curve_id = {s=obj.track2, e=obj.track3}
 local c, t = math.modf((obj.frame + delay) * bps / obj.framerate)
 local p
+
 if t < m then
-    if curve_id.s == -1 then
-        p = 0
-    elseif curve_id.s == -2 then
-        p = 1
-    elseif curve_id.s == 0 then
-        p = t / m
-    else
-        p = curve_editor.getcurve(1, curve_id.s, t / m, 0.0, 1.0)
-    end
+    p = lib.getcurve(curve_id.s, t / m, false)
 else
-    if curve_id.e == -1 then
-        p = 1
-    elseif curve_id.e == -2 then
-        p = 0
-    elseif curve_id.e == 0 then
-        p = (1 - t) / (1 - m)
-    else
-        if obj.check0 then
-            p = curve_editor.getcurve(1, curve_id.e, 1 - (t - m) / (1.0 - m), 0.0, 1.0)
-        else
-            p = curve_editor.getcurve(1, curve_id.e, (t - m) / (1.0 - m), 1.0, 0.0)
-        end
-    end
+    p = 1.0 - lib.getcurve(curve_id.e, (t - m) / (1.0 - m), obj.check0)
 end
+
+debug = tostring(t .. " / " .. p)
 
 if CurveWithBPM == nil then
     CurveWithBPM = {}
