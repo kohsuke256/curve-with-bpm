@@ -17,7 +17,7 @@ local bps = bpm / 60
 local delay = obj.track1
 local id_s, id_e = obj.track2, obj.track3
 local reverse = obj.check0
-local c, t = lib.getbeat2(obj.frame, bps, obj.framerate, m, sync)
+local c, t = lib.getbeat2(obj.frame + delay, bps, obj.framerate, m, sync)
 local p = lib.getcurve2(id_s, id_e, t, m, reverse)
 
 if CurveWithBPM == nil then

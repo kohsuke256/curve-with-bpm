@@ -13,7 +13,7 @@ local bpm = obj.track0
 local bps = bpm / 60
 local delay = obj.track1
 local curve_id = obj.track2
-local c, t = lib.getbeat(obj.frame, bps, obj.framerate, sync)
+local c, t = lib.getbeat(obj.frame + delay, bps, obj.framerate, sync)
 
 local p = lib.getcurve(curve_id, t, false)
 
@@ -41,7 +41,7 @@ local lib = require("CurveWithBPM")
 local bpm = obj.track0
 local bps = bpm / 60
 local delay = obj.track1
-local c, t = lib.getbeat2(obj.frame, bps, obj.framerate, m, sync)
+local c, t = lib.getbeat2(obj.frame + delay, bps, obj.framerate, m, sync)
 local p = lib.getcurve2(obj.track2, obj.track3, t, m, obj.check0)
 
 obj.ox = obj.ox + ox * p
