@@ -1,5 +1,5 @@
 @トラックバー往復
---dialog:配分,local m=0.5;ID,local id=1;
+--dialog:配分,local m=0.5;ID,local id=1;表示(true/false),local display=false;
 --check0:反転,0;
 --track0:BPM,1.0,1600.0,120.0
 --track1:ずらし,0,3000,0,1
@@ -14,8 +14,10 @@ local lib = require("CurveWithBPM")
 local bpm = obj.track0
 local bps = bpm / 60
 local delay = obj.track1
+local id_s, id_e = obj.track2, obj.track3
+local reverse = obj.check0
 local c, t = math.modf((obj.frame + delay) * bps / obj.framerate)
-local p = lib.getcurve2(obj.track2, obj.track3, t, m, obj.check0)
+local p = lib.getcurve2(id_s, id_e, t, m, reverse)
 
 if CurveWithBPM == nil then
     CurveWithBPM = {}
@@ -25,6 +27,52 @@ if CurveWithBPM.track == nil then
 end
 
 CurveWithBPM.track[id] = p
+
+if display and obj.getoption("gui") then
+    local display_size = 100
+
+    local function get_x(m)
+        return display_size * m - display_size / 2
+    end
+
+    local function get_y(p)
+        return display_size / 2 - display_size * p
+    end
+
+    obj.load("figure", "四角形", 0x0000ff, display_size, display_size, 1 - 1 / display_size)
+    obj.setoption("drawtarget", "tempbuffer", display_size, display_size * 3)
+    obj.draw(get_x(m), 0)
+
+    obj.setfont("", display_size * 0.2, 0, 0x00ff00)
+    obj.load("text", tostring(id_s))
+    obj.setoption("drawtarget", "tempbuffer")
+    obj.draw(get_x(m / 2), 0)
+    obj.load("text", tostring(id_e))
+    obj.effect("反転", "左右反転", reverse and 1 or 0)
+    obj.setoption("drawtarget", "tempbuffer")
+    obj.draw(get_x((1 + m) / 2), 0)
+    obj.load("text", tostring(id))
+    obj.setoption("drawtarget", "tempbuffer")
+    obj.draw(0, display_size * 0.6)
+
+    obj.load("figure", "円", 0xffff00, display_size * 0.10)
+    obj.setoption("drawtarget", "tempbuffer")
+    obj.draw(get_x(t), get_y(p))
+
+    obj.load("figure", "四角形", 0xffffff, display_size, 1)
+    obj.setoption("drawtarget", "tempbuffer")
+    obj.draw()
+
+    obj.load("tempbuffer")
+
+    obj.pixeloption("type", "col")
+    obj.pixeloption("get", "obj")
+    for px = 0, display_size do
+        obj.putpixel(px, math.floor(display_size * 2 - lib.getcurve2(id_s, id_e, px / display_size, m, reverse) * display_size), 0xff0000, 1.0)
+    end
+
+    obj.zoom = obj.zoom * 4
+end
 
 @デバッグモード
 
