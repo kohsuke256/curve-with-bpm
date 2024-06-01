@@ -1,4 +1,4 @@
-@‰•œ‹æŠÔ
+@å¾€å¾©åŒºé–“
 --param:0
 
 local i, t =math.modf(obj.getpoint("index"))
@@ -15,7 +15,7 @@ end
 
 return s * (1 - p) + e * p
 
-@‰•œ·•ª
+@å¾€å¾©å·®åˆ†
 --param:0
 
 local i, t =math.modf(obj.getpoint("index"))
@@ -32,7 +32,7 @@ end
 
 return s + e * p
 
-@‰•œ‹æŠÔi’†ŠÔ“_–³‹j
+@å¾€å¾©åŒºé–“ï¼ˆä¸­é–“ç‚¹ç„¡è¦–ï¼‰
 --twopoint
 --param:0
 
@@ -50,7 +50,7 @@ end
 
 return s * (1 - p) + e * p
 
-@‰•œ·•ªi’†ŠÔ“_–³‹j
+@å¾€å¾©å·®åˆ†ï¼ˆä¸­é–“ç‚¹ç„¡è¦–ï¼‰
 --twopoint
 --param:0
 
