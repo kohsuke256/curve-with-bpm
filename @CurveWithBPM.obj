@@ -1,5 +1,5 @@
 @トラックバー往復
---dialog:配分,local m=0.5;ID,local id=1;表示(true/false),local display=false;
+--dialog:配分,local m=0.5;ID,local id=1;同期(true/false),local sync=false;表示(true/false),local display=false;
 --check0:反転,0;
 --track0:BPM,1.0,1600.0,120.0
 --track1:ずらし,0,3000,0,1
@@ -11,12 +11,13 @@ if CurveWithBPM ~= nil and CurveWithBPM.debug then
 end
 local lib = require("CurveWithBPM")
 
+
 local bpm = obj.track0
 local bps = bpm / 60
 local delay = obj.track1
 local id_s, id_e = obj.track2, obj.track3
 local reverse = obj.check0
-local c, t = math.modf((obj.frame + delay) * bps / obj.framerate)
+local c, t = lib.getbeat2(obj.frame, bps, obj.framerate, m, sync)
 local p = lib.getcurve2(id_s, id_e, t, m, reverse)
 
 if CurveWithBPM == nil then

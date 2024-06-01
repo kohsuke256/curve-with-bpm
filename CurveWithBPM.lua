@@ -1,3 +1,32 @@
+local function getbeat(f, bps, framerate, sync)
+    if sync then
+        local c, t = getbeat(f, bps, framerate, false)
+        local sf = math.ceil(c * framerate / bps)
+        local ef = math.ceil((c + 1) * framerate / bps) - 1
+        return c, (f - sf) / (ef - sf)
+    else
+        return math.modf(f * bps / framerate)
+    end
+end
+
+local function getbeat2(f, bps, framerate, m, sync)
+    if sync then
+        local c, t = getbeat(f, bps, framerate, false)
+        local sf, ef
+        if t < m then
+            sf = math.ceil(c * framerate / bps)
+            ef = math.ceil((c + m) * framerate / bps)
+            return c, (f - sf) / (ef - sf) * m
+        else
+            sf = math.ceil((c + m) * framerate / bps)
+            ef = math.ceil((c + 1) * framerate / bps)
+            return c, (f - sf) / (ef - sf) * (1 - m) + m
+        end
+    else
+        return math.modf(f * bps / framerate)
+    end
+end
+
 local function getcurve(id, t, reverse)
     local modname = "curve_editor"
     if not package.loaded[modname] then
@@ -30,6 +59,8 @@ local function getcurve2(id_s, id_e, t, m, reverse)
 end
 
 return {
+    getbeat = getbeat,
+    getbeat2 = getbeat2,
     getcurve = getcurve,
     getcurve2 = getcurve2,
 }

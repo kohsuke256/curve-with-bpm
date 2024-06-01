@@ -1,8 +1,8 @@
 @基本操作
---dialog:X座標,local ox=0;Y座標,local oy=0;Z座標,local oz=0;X回転,local rx=0;Y回転,local ry=0;Z回転,local rz=0;拡大率,local sb=100;X拡大,local sx=100;Y拡大,local sy=100;
+--dialog:X座標,local ox=0;Y座標,local oy=0;Z座標,local oz=0;X回転,local rx=0;Y回転,local ry=0;Z回転,local rz=0;拡大率,local sb=100;X拡大,local sx=100;Y拡大,local sy=100;同期(true/false),local sync=false;
 --track0:BPM,1.0,1600.0,120.0
 --track1:ずらし,0,3000,0,1
---track2:ID,1,1024,1,1
+--track2:ID,-2,1024,0,1
 
 if CurveWithBPM ~= nil and CurveWithBPM.debug then
     package.loaded["CurveWithBPM"] = nil
@@ -13,7 +13,7 @@ local bpm = obj.track0
 local bps = bpm / 60
 local delay = obj.track1
 local curve_id = obj.track2
-local c, t = math.modf((obj.frame + delay) * bps / obj.framerate)
+local c, t = lib.getbeat(obj.frame, bps, obj.framerate, sync)
 
 local p = lib.getcurve(curve_id, t, false)
 
@@ -26,7 +26,7 @@ obj.rz = obj.rz + rz * p
 obj.effect("拡大率", "拡大率", 100 + (sb - 100) * p, "X", 100 + (sx - 100) * p, "Y", 100 + (sy - 100) * p)
 
 @基本往復
---dialog:配分,local m=0.5;X座標,local ox=0;Y座標,local oy=0;Z座標,local oz=0;X回転,local rx=0;Y回転,local ry=0;Z回転,local rz=0;拡大率,local sb=100;X拡大,local sx=100;Y拡大,local sy=100;
+--dialog:配分,local m=0.5;X座標,local ox=0;Y座標,local oy=0;Z座標,local oz=0;X回転,local rx=0;Y回転,local ry=0;Z回転,local rz=0;拡大率,local sb=100;X拡大,local sx=100;Y拡大,local sy=100;同期(true/false),local sync=false;
 --check0:反転,0;
 --track0:BPM,1.0,1600.0,120.0
 --track1:ずらし,0,3000,0,1
@@ -41,7 +41,7 @@ local lib = require("CurveWithBPM")
 local bpm = obj.track0
 local bps = bpm / 60
 local delay = obj.track1
-local c, t = math.modf((obj.frame + delay) * bps / obj.framerate)
+local c, t = lib.getbeat2(obj.frame, bps, obj.framerate, m, sync)
 local p = lib.getcurve2(obj.track2, obj.track3, t, m, obj.check0)
 
 obj.ox = obj.ox + ox * p
