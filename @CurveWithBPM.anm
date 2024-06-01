@@ -1,9 +1,12 @@
-@Šî–{‘€ì
---dialog:XÀ•W,local ox=0;YÀ•W,local oy=0;ZÀ•W,local oz=0;X‰ñ“],local rx=0;Y‰ñ“],local ry=0;Z‰ñ“],local rz=0;Šg‘å—¦,local sb=100;XŠg‘å,local sx=100;YŠg‘å,local sy=100;
+@åŸºæœ¬æ“ä½œ
+--dialog:Xåº§æ¨™,local ox=0;Yåº§æ¨™,local oy=0;Zåº§æ¨™,local oz=0;Xå›è»¢,local rx=0;Yå›è»¢,local ry=0;Zå›è»¢,local rz=0;æ‹¡å¤§ç‡,local sb=100;Xæ‹¡å¤§,local sx=100;Yæ‹¡å¤§,local sy=100;
 --track0:BPM,1.0,1600.0,120.0
---track1:‚¸‚ç‚µ,0,3000,0,1
+--track1:ãšã‚‰ã—,0,3000,0,1
 --track2:ID,1,1024,1,1
 
+if CurveWithBPM ~= nil and CurveWithBPM.debug then
+    package.loaded["CurveWithBPM"] = nil
+end
 local lib = require("CurveWithBPM")
 
 local bpm = obj.track0
@@ -20,30 +23,26 @@ obj.oz = obj.oz + oz * p
 obj.rx = obj.rx + rx * p
 obj.ry = obj.ry + ry * p
 obj.rz = obj.rz + rz * p
-obj.effect('Šg‘å—¦', 'Šg‘å—¦', 100 + (sb - 100) * p, 'X', 100 + (sx - 100) * p, 'Y', 100 + (sy - 100) * p)
+obj.effect('æ‹¡å¤§ç‡', 'æ‹¡å¤§ç‡', 100 + (sb - 100) * p, 'X', 100 + (sx - 100) * p, 'Y', 100 + (sy - 100) * p)
 
-@Šî–{‰•œ
---dialog:”z•ª,local m=0.5;XÀ•W,local ox=0;YÀ•W,local oy=0;ZÀ•W,local oz=0;X‰ñ“],local rx=0;Y‰ñ“],local ry=0;Z‰ñ“],local rz=0;Šg‘å—¦,local sb=100;XŠg‘å,local sx=100;YŠg‘å,local sy=100;
---check0:”½“],0;
+@åŸºæœ¬å¾€å¾©
+--dialog:é…åˆ†,local m=0.5;Xåº§æ¨™,local ox=0;Yåº§æ¨™,local oy=0;Zåº§æ¨™,local oz=0;Xå›è»¢,local rx=0;Yå›è»¢,local ry=0;Zå›è»¢,local rz=0;æ‹¡å¤§ç‡,local sb=100;Xæ‹¡å¤§,local sx=100;Yæ‹¡å¤§,local sy=100;
+--check0:åè»¢,0;
 --track0:BPM,1.0,1600.0,120.0
---track1:‚¸‚ç‚µ,0,3000,0,1
---track2:s‚«ID,-2,1024,0,1
---track3:‹A‚èID,-2,1024,0,1
+--track1:ãšã‚‰ã—,0,3000,0,1
+--track2:è¡ŒãID,-2,1024,0,1
+--track3:å¸°ã‚ŠID,-2,1024,0,1
 
+if CurveWithBPM ~= nil and CurveWithBPM.debug then
+    package.loaded["CurveWithBPM"] = nil
+end
 local lib = require("CurveWithBPM")
 
 local bpm = obj.track0
 local bps = bpm / 60
 local delay = obj.track1
-local curve_id = {s=obj.track2, e=obj.track3}
 local c, t = math.modf((obj.frame + delay) * bps / obj.framerate)
-local p
-
-if t < m then
-    p = lib.getcurve(curve_id.s, t / m, false)
-else
-    p = 1.0 - lib.getcurve(curve_id.e, (t - m) / (1.0 - m), obj.check0)
-end
+local p = lib.getcurve2(obj.track2, obj.track3, t, m, obj.check0)
 
 obj.ox = obj.ox + ox * p
 obj.oy = obj.oy + oy * p
@@ -51,4 +50,4 @@ obj.oz = obj.oz + oz * p
 obj.rx = obj.rx + rx * p
 obj.ry = obj.ry + ry * p
 obj.rz = obj.rz + rz * p
-obj.effect('Šg‘å—¦', 'Šg‘å—¦', 100 + (sb - 100) * p, 'X', 100 + (sx - 100) * p, 'Y', 100 + (sy - 100) * p)
+obj.effect('æ‹¡å¤§ç‡', 'æ‹¡å¤§ç‡', 100 + (sb - 100) * p, 'X', 100 + (sx - 100) * p, 'Y', 100 + (sy - 100) * p)

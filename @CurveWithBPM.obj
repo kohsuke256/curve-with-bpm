@@ -1,27 +1,21 @@
-@ƒgƒ‰ƒbƒNƒo[‰•œ
---dialog:”z•ª,local m=0.5;ID,local id=1;
---check0:”½“],0;
+@ãƒˆãƒ©ãƒƒã‚¯ãƒãƒ¼å¾€å¾©
+--dialog:é…åˆ†,local m=0.5;ID,local id=1;
+--check0:åè»¢,0;
 --track0:BPM,1.0,1600.0,120.0
---track1:‚¸‚ç‚µ,0,3000,0,1
---track2:s‚«ID,-2,1024,0,1
---track3:‹A‚èID,-2,1024,0,1
+--track1:ãšã‚‰ã—,0,3000,0,1
+--track2:è¡ŒãID,-2,1024,0,1
+--track3:å¸°ã‚ŠID,-2,1024,0,1
 
+if CurveWithBPM ~= nil and CurveWithBPM.debug then
+    package.loaded["CurveWithBPM"] = nil
+end
 local lib = require("CurveWithBPM")
 
 local bpm = obj.track0
 local bps = bpm / 60
 local delay = obj.track1
-local curve_id = {s=obj.track2, e=obj.track3}
 local c, t = math.modf((obj.frame + delay) * bps / obj.framerate)
-local p
-
-if t < m then
-    p = lib.getcurve(curve_id.s, t / m, false)
-else
-    p = 1.0 - lib.getcurve(curve_id.e, (t - m) / (1.0 - m), obj.check0)
-end
-
-debug = tostring(t .. " / " .. p)
+local p = lib.getcurve2(obj.track2, obj.track3, t, m, obj.check0)
 
 if CurveWithBPM == nil then
     CurveWithBPM = {}
@@ -31,3 +25,10 @@ if CurveWithBPM.track == nil then
 end
 
 CurveWithBPM.track[id] = p
+
+@ãƒ‡ãƒãƒƒã‚°ãƒ¢ãƒ¼ãƒ‰
+
+if CurveWithBPM == nil then
+    CurveWithBPM = {}
+end
+CurveWithBPM.debug = true
