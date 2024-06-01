@@ -1,7 +1,7 @@
 @往復区間
 --param:0
 
-local i, t =math.modf(obj.getpoint("index"))
+local i, t = math.modf(obj.getpoint("index"))
 local s = obj.getpoint(i);
 local e = obj.getpoint(i + 1);
 local id = obj.getpoint("param")
@@ -18,7 +18,7 @@ return s * (1 - p) + e * p
 @往復差分
 --param:0
 
-local i, t =math.modf(obj.getpoint("index"))
+local i, t = math.modf(obj.getpoint("index"))
 local s = obj.getpoint(0);
 local e = obj.getpoint(i + 1);
 local id = obj.getpoint("param")
@@ -36,7 +36,7 @@ return s + e * p
 --twopoint
 --param:0
 
-local i, t =math.modf(obj.getpoint("index"))
+local i, t = math.modf(obj.getpoint("index"))
 local s = obj.getpoint(0);
 local e = obj.getpoint(1);
 local id = obj.getpoint("param")
@@ -54,7 +54,7 @@ return s * (1 - p) + e * p
 --twopoint
 --param:0
 
-local i, t =math.modf(obj.getpoint("index"))
+local i, t = math.modf(obj.getpoint("index"))
 local s = obj.getpoint(0);
 local e = obj.getpoint(1);
 local id = obj.getpoint("param")
